@@ -50,4 +50,28 @@ public class HelloBridge {
     public List<Object> getListValue() {
         return mListVal;
     }
+
+    public void readBytes(byte[] buffer) {
+        if (buffer.length == 5) {
+            for (int i = 0; i < buffer.length; ++i) {
+                int b = buffer[i];
+                Log.d(TAG, "read(" + i + ") = " + b);
+            }
+            buffer[0] = 0x3c;
+            buffer[1] = 0x01;
+            buffer[2] = 0x00;
+            buffer[3] = 0x00;
+            buffer[4] = 0x3e;
+        }
+        else {
+            Log.d(TAG, "Buffer should be length 5 but is actually " + buffer.length);
+        }
+    }
+
+    public void writeBytes(byte[] buffer) {
+        for (int i = 0; i < buffer.length; ++i) {
+            int b = buffer[i];
+            Log.d(TAG, "write(" + i + ") = " + b);
+        }
+    }
 }

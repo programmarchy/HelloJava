@@ -25,9 +25,18 @@
     HelloBridge *bridgeObject = [[HelloBridge alloc] initWithIntValue:42 doubleValue:55.4];
     [bridgeObject setIntValue:99];
     [bridgeObject setDoubleValue:11.44];
-    NSString *result = [NSString stringWithFormat:@"Hello Android: %d, %f\nList has %d items",
+    unsigned char readBytes[5] = { 0, 0, 0, 0, 0 };
+    NSMutableData *readData = [[NSMutableData alloc] init];
+    [readData appendBytes:readBytes length:5];
+    [bridgeObject readBytes:readData];
+    NSString *result = [NSString stringWithFormat:@"Hello Android: %d, %f\nList has %d items\nData: %@",
                                                   bridgeObject.intValue, [bridgeObject doubleValue],
-                                                  [bridgeObject.listValue toArray].count];
+                                                  [bridgeObject.listValue toArray].count,
+                                                  readData];
+
+    unsigned char writeBytes[5] = { 0x3c, 0x1, 0x0, 0x0, 0x3e };
+    NSData *writeData = [NSData dataWithBytes:writeBytes length:5];
+    [bridgeObject writeBytes:writeData];
 #else
     NSString *result = @"Hello iOS!";
 #endif

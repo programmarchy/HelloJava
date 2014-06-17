@@ -1,6 +1,9 @@
 #import "HelloBridge.h"
 #import "MyBridgeObject.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincomplete-implementation"
+
 @implementation HelloBridge
 
 // Any objc properties that are declared should declare dynamic,
@@ -42,6 +45,15 @@
                             returnValue:[JavaList className]
                               arguments:nil];
 
+    [HelloBridge registerInstanceMethod:@"readBytes"
+                               selector:@selector(readBytes:)
+                            returnValue:nil
+                              arguments:[NSData className], nil];
+
+    [HelloBridge registerInstanceMethod:@"writeBytes"
+                               selector:@selector(writeBytes:)
+                            returnValue:nil
+                              arguments:[NSData className], nil];
 
     [HelloBridge registerCallback:@"bridgeCallback"
                          selector:@selector(valueChanged:doubleValue:)
@@ -60,3 +72,5 @@
 }
 
 @end
+
+#pragma clang diagnostic pop
