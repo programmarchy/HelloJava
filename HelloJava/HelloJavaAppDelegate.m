@@ -19,22 +19,30 @@
     [super dealloc];
 }
 
+- (void)readBytes:(NSData *)data
+{
+  if (data.length == 5) {
+    char *bytes = (char *)data.bytes;
+    bytes[0] = 0x3c;
+    bytes[1] = 0x01;
+    bytes[2] = 0x00;
+    bytes[3] = 0x00;
+    bytes[4] = 0x3e;
+  }
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 #ifdef APPORTABLE
     HelloBridge *bridgeObject = [[HelloBridge alloc] initWithIntValue:42 doubleValue:55.4];
     [bridgeObject setIntValue:99];
     [bridgeObject setDoubleValue:11.44];
-    unsigned char readBytes[5] = { 0, 0, 0, 0, 0 };
-    NSMutableData *readData = [[NSMutableData alloc] init];
-    [readData appendBytes:readBytes length:5];
-    [bridgeObject readBytes:readData];
+    NSData *readData = [bridgeObject readBytes:5];
     NSString *result = [NSString stringWithFormat:@"Hello Android: %d, %f\nList has %d items\nData: %@",
                                                   bridgeObject.intValue, [bridgeObject doubleValue],
                                                   [bridgeObject.listValue toArray].count,
                                                   readData];
-
-    unsigned char writeBytes[5] = { 0x3c, 0x1, 0x0, 0x0, 0x3e };
+    char writeBytes[5] = { 0x3c, 0x1, 0x0, 0x0, 0x3e };
     NSData *writeData = [NSData dataWithBytes:writeBytes length:5];
     [bridgeObject writeBytes:writeData];
 #else

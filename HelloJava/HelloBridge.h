@@ -7,6 +7,6 @@
 - (void)setDoubleValue:(double)d;
 - (double)doubleValue;
 - (JavaList*)listValue;
-- (void)readBytes:(NSData *)data;
+- (NSData *)readBytes:(int)maxLength;
 - (void)writeBytes:(NSData *)data;
 @end

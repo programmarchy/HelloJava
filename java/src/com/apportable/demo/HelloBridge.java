@@ -51,12 +51,9 @@ public class HelloBridge {
         return mListVal;
     }
 
-    public void readBytes(byte[] buffer) {
-        if (buffer.length == 5) {
-            for (int i = 0; i < buffer.length; ++i) {
-                int b = buffer[i];
-                Log.d(TAG, "read(" + i + ") = " + b);
-            }
+    public byte[] readBytes(int maxLength) {
+        byte[] buffer = new byte[maxLength];
+        if (maxLength == 5) {
             buffer[0] = 0x3c;
             buffer[1] = 0x01;
             buffer[2] = 0x00;
@@ -66,6 +63,7 @@ public class HelloBridge {
         else {
             Log.d(TAG, "Buffer should be length 5 but is actually " + buffer.length);
         }
+        return buffer;
     }
 
     public void writeBytes(byte[] buffer) {

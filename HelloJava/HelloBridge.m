@@ -47,8 +47,8 @@
 
     [HelloBridge registerInstanceMethod:@"readBytes"
                                selector:@selector(readBytes:)
-                            returnValue:nil
-                              arguments:[NSData className], nil];
+                            returnValue:[NSData className]
+                              arguments:[JavaClass intPrimitive], nil];
 
     [HelloBridge registerInstanceMethod:@"writeBytes"
                                selector:@selector(writeBytes:)
